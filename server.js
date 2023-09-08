@@ -22,7 +22,7 @@ app.post("/api/sendemail", async (req, res) => {
   console.log(req.body)
 
   try {
-    const send_to = "precisegis@gmail.com";
+    const send_to = "info@childsolidarity.org";
     const sent_from = process.env.EMAIL_USER;
     const reply_to = email;
     const subject = req.body.subject;
