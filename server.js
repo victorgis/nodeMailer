@@ -38,6 +38,25 @@ app.post("/api/sendemail", async (req, res) => {
   
 });
 
+app.post("/api/newsletter", async (req, res) => {
+
+  console.log(req.body)
+
+  try {
+    const send_to = "info@childsolidarity.org";
+    const subject = "Newsletter Email";
+    const message = req.body.message;
+
+    // console.log(subject)
+
+    await sendEmail(subject, message, send_to);
+    res.status(200).json({ success: true, message: "Email Sending from serverjs" });
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+  
+});
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}...`);
