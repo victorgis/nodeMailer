@@ -16,30 +16,9 @@ app.get("/", (req, res) => {
   res.send("Home Page");
 });
 
-app.post("/api/sendemail", async (req, res) => {
-  const { email } = req.body;
 
-  console.log(req.body)
-
-  try {
-    const send_to = "info@childsolidarity.org";
-    const sent_from = process.env.EMAIL_USER;
-    const reply_to = email;
-    const subject = req.body.subject;
-    const message = req.body.message;
-
-    // console.log(subject)
-
-    await sendEmail(subject, message, send_to, sent_from, reply_to);
-    res.status(200).json({ success: true, message: "Email Sending from serverjs" });
-  } catch (error) {
-    res.status(500).json(error.message);
-  }
-  
-});
 
 app.post("/api/newsletter", async (req, res) => {
-
   console.log(req.body)
 
   try {
@@ -50,6 +29,27 @@ app.post("/api/newsletter", async (req, res) => {
     // console.log(subject)
 
     await sendEmail(subject, message, send_to);
+    res.status(200).json({ success: true, message: "Email Sending from serverjs" });
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
+app.post("/api/contacts", async (req, res) => {
+
+  const name = req.body.name;
+
+
+
+  try {
+    const reply_to = req.body.email
+    const sent_from = req.body.email
+    const send_to = "info@childsolidarity.org";
+    const subject = req.body.subject;
+    const message = `Name: ${name},Email: ${reply_to}, Message: ${req.body.message}`;
+    console.log("reg body",req.body)
+
+    await sendEmail(subject, message, send_to, reply_to, sent_from);
     res.status(200).json({ success: true, message: "Email Sending from serverjs" });
   } catch (error) {
     res.status(500).json(error.message);
