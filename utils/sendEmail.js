@@ -1,25 +1,32 @@
 const nodemailer = require("nodemailer");
+const fs = require('fs');
+const ejs = require('ejs');
+const path = require('path');
 
-const sendEmail = async (subject, message, send_to, sent_from, reply_to) => {
+const htmlContent = fs.readFileSync(path.join(__dirname, 'template.ejs'), 'utf8'); 
+
+const sendEmail = async (subject, message, send_to, reply_to, name) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
-    port: "465",
+    port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-    tls: {
-      rejectUnauthorized: false,
-    },
+    // tls: {
+    //   rejectUnauthorized: false,
+    // },
   });
 
+  const renderedHtml = ejs.render(htmlContent, { message, name });
+
   const options = {
-    from: sent_from,
+    // from: sent_from,
     to: send_to,
     replyTo: reply_to,
     subject: subject,
-    html: message,
+    html: renderedHtml,
   };
 
   // Send Email
