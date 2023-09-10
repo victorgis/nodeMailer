@@ -21,8 +21,7 @@ app.get("/", (req, res) => {
 
 
 app.post("/api/newsletter", async (req, res) => {
-  console.log(req.body)
-
+  
   try {
     const send_to = "info@childsolidarity.org";
     const subject = "Newsletter Email";
@@ -40,17 +39,12 @@ app.post("/api/newsletter", async (req, res) => {
 app.post("/api/contacts", async (req, res) => {
 
   const name = req.body.name;
-
-
-
   try {
     const reply_to = req.body.email
     const sent_from = req.body.email
     const send_to = "info@childsolidarity.org";
     const subject = req.body.subject;
     const message = `Name: ${name},Email: ${reply_to}, Message: ${req.body.message}`;
-    console.log("reg body",req.body)
-
     await sendEmail(subject, message, send_to, reply_to, sent_from);
     console.log("email sent successful")
     res.status(200).json({ success: true, message: "Email Sending from serverjs" });
