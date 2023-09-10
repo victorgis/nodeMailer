@@ -19,6 +19,7 @@ const sendEmail = async (subject, message, send_to, reply_to, name) => {
     // },
   });
 
+  //how to render variables into a ejs file
   const renderedHtml = ejs.render(htmlContent, { message, name });
 
   const options = {
