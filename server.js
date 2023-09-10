@@ -9,7 +9,9 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin:"*"
+}));
 
 // Route
 app.get("/", (req, res) => {
@@ -50,6 +52,7 @@ app.post("/api/contacts", async (req, res) => {
     console.log("reg body",req.body)
 
     await sendEmail(subject, message, send_to, reply_to, sent_from);
+    console.log("email sent successful")
     res.status(200).json({ success: true, message: "Email Sending from serverjs" });
   } catch (error) {
     res.status(500).json(error.message);
@@ -59,5 +62,5 @@ app.post("/api/contacts", async (req, res) => {
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}...`);
+  console.log(`Server running on port http://localhost:${PORT}`);
 });
