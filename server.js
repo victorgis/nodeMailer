@@ -26,7 +26,7 @@ app.post("/api/newsletter", async (req, res) => {
   try {
     const send_to = "info@childsolidarity.org";
     const subject = "Newsletter Email";
-    const message = req.body.message;
+    const message = req.body.email;
     
     await sendEmail(subject, message, send_to);
     res.status(200).json({ success: true, message: "Email Sending from server.js" });
