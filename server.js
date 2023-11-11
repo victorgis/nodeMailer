@@ -53,6 +53,24 @@ app.post("/api/contacts", async (req, res) => {
   }
 });
 
+//Contact form
+app.post("/api/precisegis/contacts", async (req, res) => {
+  try {
+    const reply_to = req.body.email;
+    const send_to = "precisegis@gmail.com";
+    const subject = req.body.subject;
+    const message = req.body.message;
+    const name = req.body.name;
+
+    await sendEmail(subject, message, send_to, reply_to, name);
+    console.log("Email sent successfully"); // Corrected log message
+
+    res.status(200).json({ success: true, message: "Email Sending from server.js" });
+  } catch (error) {
+    res.status(500).json({ error: error.message }); // Return error as JSON
+  }
+});
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);
